@@ -32,7 +32,7 @@ def find_lane_pixels(binary_warped):
     # Choose the number of sliding windows
     nwindows = 9
     # Set the width of the windows +/- margin
-    margin = 100
+    margin = 20
     # Set minimum number of pixels found to recenter window
     minpix = 50
 
@@ -157,7 +157,23 @@ def fit_poly(img_shape, leftx, lefty, rightx, righty):
     
     return left_fitx, right_fitx, ploty
 
-def search_around_poly(binary_warped, left_fit, right_fit):
+
+def fit_poly_cr(img_shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix):
+     ### TO-DO: Fit a second order polynomial to each with np.polyfit() ###
+    left_fit = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+    right_fit = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
+    # Generate x and y values for plotting
+    ploty_cr = np.linspace(0, img_shape[0]-1, img_shape[0])
+    ### TO-DO: Calc both polynomials using ploty, left_fit and right_fit ###
+    left_fit_cr = left_fit[0]*ploty_cr**2 + left_fit[1]*ploty_cr + left_fit[2]
+    right_fit_cr = right_fit[0]*ploty_cr**2 + right_fit[1]*ploty_cr + right_fit[2]
+    
+    return left_fit_cr, right_fit_cr, ploty_cr
+
+
+
+
+def search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix = 1, ym_per_pix = 1):
     # HYPERPARAMETER
     # Choose the width of the margin around the previous polynomial to search
     # The quiz grader expects 100 here, but feel free to tune on your own!
@@ -187,6 +203,7 @@ def search_around_poly(binary_warped, left_fit, right_fit):
 
     # Fit new polynomials
     left_fitx, right_fitx, ploty = fit_poly(binary_warped.shape, leftx, lefty, rightx, righty)
+    left_fit_cr, right_fit_cr, ploty_cr = fit_poly_cr(binary_warped.shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix)
     
     ## Visualization ##
     # Create an image to draw on and an image to show the selection window
@@ -217,5 +234,49 @@ def search_around_poly(binary_warped, left_fit, right_fit):
     plt.plot(right_fitx, ploty, color='yellow')
     ## End visualization steps ##
     
-    return result
+    return result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr
 
+
+
+def measure_curvature_pixels(binary_warped, left_fit, right_fit):
+    ym_per_pix = 30/720 # meters per pixel in y dimension
+    xm_per_pix = 3.7/700 # meters per pixel in x dimension
+    '''
+    Calculates the curvature of polynomial functions in pixels.
+    '''
+    # Start by generating our fake example data
+    # Make sure to feed in your real data instead in your project!
+    result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix, ym_per_pix)
+    
+    # Define y-value where we want radius of curvature
+    # We'll choose the maximum y-value, corresponding to the bottom of the image
+    y_eval = np.max(ploty)
+    
+    ##### TO-DO: Implement the calculation of R_curve (radius of curvature) #####
+    left_curverad = ((1 + (2*left_fit[0]*y_eval + left_fit[1])**2)**1.5) / np.absolute(2*left_fit[0])
+    right_curverad = ((1 + (2*right_fit[0]*y_eval + right_fit[1])**2)**1.5) / np.absolute(2*right_fit[0])
+    
+    return left_curverad, right_curverad
+
+
+def measure_curvature_real(binary_warped, left_fit, right_fit):
+    '''
+    Calculates the curvature of polynomial functions in meters.
+    '''
+    # Define conversions in x and y from pixels space to meters
+    ym_per_pix = 30/720 # meters per pixel in y dimension
+    xm_per_pix = 3.7/700 # meters per pixel in x dimension
+    
+    # Start by generating our fake example data
+    # Make sure to feed in your real data instead in your project!
+    result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix, ym_per_pix)
+    
+    # Define y-value where we want radius of curvature
+    # We'll choose the maximum y-value, corresponding to the bottom of the image
+    y_eval = np.max(ploty_cr)
+    
+    # Calculation of R_curve (radius of curvature)
+    left_curverad_m = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+    right_curverad_m = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+    
+    return left_curverad_m, right_curverad_m

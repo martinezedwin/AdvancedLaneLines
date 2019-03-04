@@ -8,7 +8,8 @@ import pickle
 import Undistort
 import Unwarp
 import FindPix
-
+from IPython.display 
+import HTML
 #1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 #1. DONE using get_calibration_factors.py and Calibration.py saved to calibration.p
 
@@ -24,7 +25,7 @@ mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
 #read in test imageimage
-fname = 'test_images/straight_lines2.jpg'
+fname = 'test_images/test4.jpg'
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #UNIDSTORT IMAGE
@@ -175,8 +176,47 @@ out_img, left_fit, right_fit = FindPix.fit_polynomial(warped)
 
 # Run image through the pipeline
 # Note that in your project, you'll also want to feed in the previous fits
-result = FindPix.search_around_poly(warped, left_fit, right_fit)
+result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = FindPix.search_around_poly(warped, left_fit, right_fit)
 
 # View your output
-plt.imshow(result)
+#plt.imshow(result)
+#plt.show()
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#6. Determine the curvature of the lane and vehicle position with respect to center.
+
+#left_curverad, right_curverad = FindPix.measure_curvature_pixels(warped, left_fit, right_fit)
+#print(left_curverad)
+#print(right_curverad)
+
+#left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped, left_fit, right_fit)
+#print(left_curverad_m)
+#print(right_curverad_m)
+
+
+
+
+
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# 7. Warp the detected lane boundaries back onto the original image.
+
+dst_reverse = vertices
+src_reverse = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
+reverse_warp = Unwarp.unwarp(result, src_reverse, dst_reverse)
+
+#plt.imshow(reverse_warp)
+#plt.show() 
+
+final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
+plt.imshow(final)
 plt.show()
+
+
