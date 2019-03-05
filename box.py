@@ -8,8 +8,10 @@ import pickle
 import Undistort
 import Unwarp
 import FindPix
-from IPython.display 
-import HTML
+from IPython.display import HTML
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw 
 #1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 #1. DONE using get_calibration_factors.py and Calibration.py saved to calibration.p
 
@@ -116,11 +118,11 @@ TR_v = TL_v
 #vertices = np.array([[BR_h, color_combined.shape[0]], [0, color_combined.shape[0]], [560, 460], [720, 460]], dtype=np.int32)
 vertices_polylines = np.array([[(BR_h, BR_v), (BL_h,BL_v), (TL_h, TL_v), (TR_h, TR_v) ]], dtype=np.int32)
 vertices = np.array([[(BR_h, BR_v), (BL_h,BL_v), (TL_h, TL_v), (TR_h, TR_v) ]], dtype=np.float32)
-region = cv2.polylines(img, vertices_polylines,True, 255, 3)
-"""
-plt.imshow(region)
-plt.show()
-"""
+#region = cv2.polylines(img, vertices_polylines,True, 255, 3)
+
+#plt.imshow(region)
+#plt.show()
+
 
 
 h, w = img.shape[:2]
@@ -176,8 +178,9 @@ out_img, left_fit, right_fit = FindPix.fit_polynomial(warped)
 
 # Run image through the pipeline
 # Note that in your project, you'll also want to feed in the previous fits
-result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = FindPix.search_around_poly(warped, left_fit, right_fit)
+result, left_fitx, right_fitx, ploty= FindPix.search_around_poly(warped, left_fit, right_fit)
 
+#print(right_fitx)
 # View your output
 #plt.imshow(result)
 #plt.show()
@@ -188,17 +191,28 @@ result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = Find
 
 #6. Determine the curvature of the lane and vehicle position with respect to center.
 
-#left_curverad, right_curverad = FindPix.measure_curvature_pixels(warped, left_fit, right_fit)
+left_curverad, right_curverad = FindPix.measure_curvature_pixels(warped)
 #print(left_curverad)
 #print(right_curverad)
 
-#left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped, left_fit, right_fit)
+left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped)
 #print(left_curverad_m)
 #print(right_curverad_m)
 
 
 
+offset = FindPix.get_offset(warped, left_fit, right_fit)
+#print(offset)
 
+if offset > 0:
+	case1 = 'Vehicle is ' + str(offset) + ' m to the right of center line'
+	#print(case1)
+elif offset < 0:
+	case2 = 'Vehicle is ' + str(offset) + ' m to the left of center line'
+	#print(case2)
+else:
+	case3 = 'Vehicle is in the center'
+	#print(case3)
 
 
 
@@ -216,7 +230,11 @@ reverse_warp = Unwarp.unwarp(result, src_reverse, dst_reverse)
 #plt.show() 
 
 final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
-plt.imshow(final)
-plt.show()
+#plt.imshow(final)
+#plt.show()
+
+im = Image.open(final)
+#final_final = ImageDraw.Draw(im)
+
 
 

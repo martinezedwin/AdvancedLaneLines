@@ -30,7 +30,7 @@ def pipeline_vid(image):
 	#fname = 'test_images/test4.jpg'
 	#img = cv2.imread(image)
 	img = image
-	img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+	#img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 	#UNIDSTORT IMAGE
 
 	undist = Undistort.undistort(img, mtx, dist)
@@ -119,7 +119,7 @@ def pipeline_vid(image):
 	#vertices = np.array([[BR_h, color_combined.shape[0]], [0, color_combined.shape[0]], [560, 460], [720, 460]], dtype=np.int32)
 	vertices_polylines = np.array([[(BR_h, BR_v), (BL_h,BL_v), (TL_h, TL_v), (TR_h, TR_v) ]], dtype=np.int32)
 	vertices = np.array([[(BR_h, BR_v), (BL_h,BL_v), (TL_h, TL_v), (TR_h, TR_v) ]], dtype=np.float32)
-	region = cv2.polylines(img, vertices_polylines,True, 255, 3)
+	#region = cv2.polylines(img, vertices_polylines,True, 255, 3)
 	"""
 	plt.imshow(region)
 	plt.show()
@@ -219,6 +219,7 @@ def pipeline_vid(image):
 	#plt.show() 
 
 	final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
+	
 	#plt.imshow(final)
 	#plt.show()
 	return final
@@ -228,7 +229,7 @@ def process_image(image):
 	result = pipeline_vid(image)
 	return result
 
-test1 = 'output_images/test1.mp4'
+test = 'output_images/test2.mp4'
 ## To speed up the testing process you may want to try your pipeline on a shorter subclip of the video
 ## To do so add .subclip(start_second,end_second) to the end of the line below
 ## Where start_second and end_second are integer values representing the start and end of the subclip
@@ -236,4 +237,4 @@ test1 = 'output_images/test1.mp4'
 #clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4").subclip(0,5)
 clip1 = VideoFileClip("project_video.mp4")
 test1_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
-test1_clip.write_videofile(test1, audio=False)
+test1_clip.write_videofile(test, audio=False)

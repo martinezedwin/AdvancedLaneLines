@@ -32,7 +32,7 @@ def find_lane_pixels(binary_warped):
     # Choose the number of sliding windows
     nwindows = 9
     # Set the width of the windows +/- margin
-    margin = 20
+    margin = 100
     # Set minimum number of pixels found to recenter window
     minpix = 50
 
@@ -131,8 +131,36 @@ def fit_polynomial(binary_warped):
     plt.plot(right_fitx, ploty, color='yellow')
 
     return out_img, left_fit, right_fit
+################################################################
+def fit_polynomial_cr(binary_warped, xm_per_pix, ym_per_pix):
+    # Find our lane pixels first
+    leftx, lefty, rightx, righty, out_img = find_lane_pixels(binary_warped)
 
+    ### TO-DO: Fit a second order polynomial to each using `np.polyfit` ###
+    left_fit = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+    right_fit = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
 
+    # Generate x and y values for plotting
+    ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
+    try:
+        left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+        right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+    except TypeError:
+        # Avoids an error if `left` and `right_fit` are still none or incorrect
+        print('The function failed to fit a line!')
+        left_fitx = 1*ploty**2 + 1*ploty
+        right_fitx = 1*ploty**2 + 1*ploty
+
+    ## Visualization ##
+    # Colors in the left and right lane regions
+    out_img[lefty, leftx] = [255, 0, 0]
+    out_img[righty, rightx] = [0, 0, 255]
+
+    # Plots the left and right polynomials on the lane lines
+    plt.plot(left_fitx, ploty, color='yellow')
+    plt.plot(right_fitx, ploty, color='yellow')
+
+    return out_img, left_fit, right_fit
 
 
 
@@ -157,7 +185,7 @@ def fit_poly(img_shape, leftx, lefty, rightx, righty):
     
     return left_fitx, right_fitx, ploty
 
-
+"""
 def fit_poly_cr(img_shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix):
      ### TO-DO: Fit a second order polynomial to each with np.polyfit() ###
     left_fit = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
@@ -169,7 +197,7 @@ def fit_poly_cr(img_shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix)
     right_fit_cr = right_fit[0]*ploty_cr**2 + right_fit[1]*ploty_cr + right_fit[2]
     
     return left_fit_cr, right_fit_cr, ploty_cr
-
+"""
 
 
 
@@ -203,7 +231,7 @@ def search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix = 1, ym_pe
 
     # Fit new polynomials
     left_fitx, right_fitx, ploty = fit_poly(binary_warped.shape, leftx, lefty, rightx, righty)
-    left_fit_cr, right_fit_cr, ploty_cr = fit_poly_cr(binary_warped.shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix)
+    #left_fit_cr, right_fit_cr, ploty_cr = fit_poly_cr(binary_warped.shape, leftx, lefty, rightx, righty, xm_per_pix, ym_per_pix)
     
     ## Visualization ##
     # Create an image to draw on and an image to show the selection window
@@ -234,11 +262,9 @@ def search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix = 1, ym_pe
     plt.plot(right_fitx, ploty, color='yellow')
     ## End visualization steps ##
     
-    return result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr
+    return result, left_fitx, right_fitx, ploty#, left_fit_cr, right_fit_cr, ploty_cr
 
-
-
-def measure_curvature_pixels(binary_warped, left_fit, right_fit):
+def measure_curvature_pixels(binary_warped):
     ym_per_pix = 30/720 # meters per pixel in y dimension
     xm_per_pix = 3.7/700 # meters per pixel in x dimension
     '''
@@ -246,11 +272,11 @@ def measure_curvature_pixels(binary_warped, left_fit, right_fit):
     '''
     # Start by generating our fake example data
     # Make sure to feed in your real data instead in your project!
-    result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix, ym_per_pix)
+    out_img, left_fit, right_fit = fit_polynomial(binary_warped)
     
     # Define y-value where we want radius of curvature
     # We'll choose the maximum y-value, corresponding to the bottom of the image
-    y_eval = np.max(ploty)
+    y_eval = np.max(out_img)
     
     ##### TO-DO: Implement the calculation of R_curve (radius of curvature) #####
     left_curverad = ((1 + (2*left_fit[0]*y_eval + left_fit[1])**2)**1.5) / np.absolute(2*left_fit[0])
@@ -258,8 +284,7 @@ def measure_curvature_pixels(binary_warped, left_fit, right_fit):
     
     return left_curverad, right_curverad
 
-
-def measure_curvature_real(binary_warped, left_fit, right_fit):
+def measure_curvature_real(binary_warped):
     '''
     Calculates the curvature of polynomial functions in meters.
     '''
@@ -269,14 +294,51 @@ def measure_curvature_real(binary_warped, left_fit, right_fit):
     
     # Start by generating our fake example data
     # Make sure to feed in your real data instead in your project!
-    result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = search_around_poly(binary_warped, left_fit, right_fit, xm_per_pix, ym_per_pix)
+    out_img, left_fit_cr, right_fit_cr = fit_polynomial_cr(binary_warped, xm_per_pix, ym_per_pix)
     
     # Define y-value where we want radius of curvature
     # We'll choose the maximum y-value, corresponding to the bottom of the image
-    y_eval = np.max(ploty_cr)
+    y_eval = np.max(out_img)
     
     # Calculation of R_curve (radius of curvature)
     left_curverad_m = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
     right_curverad_m = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
     
     return left_curverad_m, right_curverad_m
+
+
+#####################################################################################################################################################################
+#####################################################################################################################################################################
+#####################################################################################################################################################################
+
+def get_offset(image, left_fit, right_fit):
+	#Assuming the camera is in center of the car, the center of the image is the position of the vehicle
+	ym_per_pix = 30/720 # meters per pixel in y dimension
+	xm_per_pix = 3.7/700 # meters per pixel in x dimension
+	
+	image_size = image.shape
+	vehicle_center = image_size[1]//2
+	#print(image_size)
+	#print(image.size)
+	#print('image center = ' + str(vehicle_center))
+
+	result, left_fitx, right_fitx, ploty = search_around_poly(image, left_fit, right_fit, xm_per_pix = 1, ym_per_pix = 1)
+
+	r_lane_x = right_fitx[0]
+	l_lane_x = left_fitx[0]
+
+	#print('right lane = ' + str(r_lane_x))
+	#print('left lane = ' + str(l_lane_x))
+
+
+	lane_width = r_lane_x - l_lane_x
+
+	lane_center = l_lane_x + lane_width//2
+
+	#Final should be center of image - center between the two lanes
+
+	off_center = lane_center - vehicle_center  
+
+	off_center = off_center *xm_per_pix
+
+	return off_center
