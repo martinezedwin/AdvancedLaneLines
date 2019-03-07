@@ -199,7 +199,7 @@ left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped)
 #print(left_curverad_m)
 #print(right_curverad_m)
 
-
+curv = (left_curverad_m + right_curverad_m)/2
 
 offset = FindPix.get_offset(warped, left_fit, right_fit)
 #print(offset)
@@ -233,8 +233,65 @@ final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
 #plt.imshow(final)
 #plt.show()
 
-im = Image.open(final)
-#final_final = ImageDraw.Draw(im)
+
+h = final.shape[0]
+font = cv2.FONT_HERSHEY_DUPLEX
+text = 'Curve radius: ' + '{:04.2f}'.format(curv) + 'm'
+cv2.putText(final, text, (40,70), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+direction = ''
+if offset > 0:
+	direction = 'right'
+elif offset < 0:
+	direction = 'left'
+abs_center_dist = abs(offset)
+text = '{:04.3f}'.format(abs_center_dist) + 'm ' + direction + ' of center'
+cv2.putText(final, text, (40,120), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+
+plt.imshow(final)
+plt.show()
 
 
+
+
+
+
+
+
+
+
+
+"""
+im = Image.fromarray(final)
+final_final = ImageDraw.Draw(im)
+
+
+
+# create font object with the font file and specify
+# desired size
+ 
+font = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+ 
+# starting position of the message
+ 
+(x, y) = (50, 50)
+message = "Happy Birthday!"
+color = 'rgb(0, 0, 0)' # black color
+ 
+# draw the message on the background
+ 
+final_final.text((x, y), message, fill=color, font=font)
+#(x, y) = (150, 150)
+#name = 'Vinay'
+#color = 'rgb(255, 255, 255)' # white color
+#draw.text((x, y), name, fill=color, font=font)
+ 
+# save the edited image
+ 
+#image.save('greeting_card.png')
+
+#print(final_final)
+#plt.imshow(final_final)
+#plt.show()
+
+"""
 
