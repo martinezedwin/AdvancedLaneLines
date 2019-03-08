@@ -179,7 +179,8 @@ def pipeline_vid(image):
 
 	# Run image through the pipeline
 	# Note that in your project, you'll also want to feed in the previous fits
-	result, left_fitx, right_fitx, ploty, left_fit_cr, right_fit_cr, ploty_cr = FindPix.search_around_poly(warped, left_fit, right_fit)
+	result, left_fitx, right_fitx, ploty = FindPix.search_around_poly(warped, left_fit, right_fit)
+	"""left_fit_cr, right_fit_cr, ploty_cr """
 
 	# View your output
 	#plt.imshow(result)
@@ -191,11 +192,11 @@ def pipeline_vid(image):
 
 	#6. Determine the curvature of the lane and vehicle position with respect to center.
 
-	#left_curverad, right_curverad = FindPix.measure_curvature_pixels(warped, left_fit, right_fit)
+	left_curverad, right_curverad = FindPix.measure_curvature_pixels(warped)
 	#print(left_curverad)
 	#print(right_curverad)
 
-	#left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped, left_fit, right_fit)
+	left_curverad_m, right_curverad_m = FindPix.measure_curvature_real(warped)
 	#print(left_curverad_m)
 	#print(right_curverad_m)
 
@@ -210,7 +211,6 @@ def pipeline_vid(image):
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	# 7. Warp the detected lane boundaries back onto the original image.
-
 	dst_reverse = vertices
 	src_reverse = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
 	reverse_warp = Unwarp.unwarp(result, src_reverse, dst_reverse)
@@ -222,8 +222,23 @@ def pipeline_vid(image):
 	
 	#plt.imshow(final)
 	#plt.show()
+	curv = (left_curverad_m + right_curverad_m)/2
+	offset = FindPix.get_offset(warped, left_fit, right_fit)
+	
+	h = final.shape[0]
+	font = cv2.FONT_HERSHEY_DUPLEX
+	text = 'Curve radius: ' + '{:04.2f}'.format(curv) + 'm'
+	cv2.putText(final, text, (40,70), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+	direction = ''
+	if offset > 0:
+		direction = 'right'
+	elif offset < 0:
+		direction = 'left'
+	abs_center_dist = abs(offset)
+	text = '{:04.3f}'.format(abs_center_dist) + 'm ' + direction + ' of center'
+	cv2.putText(final, text, (40,120), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+	
 	return final
-
 
 def process_image(image):
 	result = pipeline_vid(image)
