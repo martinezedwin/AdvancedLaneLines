@@ -158,6 +158,16 @@ result, left_fitx, right_fitx, ploty= FindPix.search_around_poly(warped, left_fi
 # View your output
 #plt.imshow(result)
 #plt.show()
+warp_zero = np.zeros_like(warped).astype(np.uint8)
+color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+
+pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+pts = np.hstack((pts_left, pts_right))
+
+f = cv2.fillPoly(color_warp, np.int_([pts]), (0,100, 0))
+#plt.imshow(f, cmap = 'gray')
+#plt.show()
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -198,7 +208,7 @@ else:
 
 dst_reverse = vertices
 src_reverse = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
-reverse_warp = Unwarp.unwarp(result, src_reverse, dst_reverse)
+reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 
 #plt.imshow(reverse_warp)
 #plt.show() 
@@ -221,8 +231,8 @@ abs_center_dist = abs(offset)
 text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
 cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
-#plt.imshow(final)
-#plt.show()
+plt.imshow(final)
+plt.show()
 
 
 
