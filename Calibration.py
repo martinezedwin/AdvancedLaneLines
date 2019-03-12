@@ -39,7 +39,7 @@ def image_calib(image, nx, ny):
 				pickle.dump(dist_pickle, open('calibration.p', 'wb'))
 
 				undist = cv2.undistort(img, mtx, dist, None, mtx)
-				#plt.imshow(undist, cmap = 'gray')
+				#(undist, cmap = 'gray')
 				#plt.show()
 				offset = 100
 				img_size = (gray.shape[1], gray.shape[0])

@@ -1,3 +1,8 @@
+"""
+box.py is used to develop the pipeline that will eventually be used in videos.py to work on videos
+on images first.
+"""
+
 import Calibration
 import ColorSpaces
 import numpy as np 
@@ -9,9 +14,8 @@ import Undistort
 import Unwarp
 import FindPix
 from IPython.display import HTML
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw 
+
+
 #1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 #1. DONE using get_calibration_factors.py and Calibration.py saved to calibration.p
 
@@ -27,27 +31,16 @@ mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
 #read in test imageimage
-fname = 'test_images/test4.jpg'
+fname = 'test_images/straight_lines1.jpg'
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #UNIDSTORT IMAGE
 
 undist = Undistort.undistort(img, mtx, dist)
 
-"""
-plt.figure(1)
-	#regular
-plt.subplot(221)
-plt.title('original')
-plt.imshow(img)
+#plt.imshow(undist)
+#plt.show()
 
-
-plt.subplot(222)
-plt.title('undist')
-plt.imshow(undist, cmap = 'gray')
-
-plt.show()
-"""
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -84,20 +77,8 @@ S = ColorSpaces.S_gradients(undist, thresh = (130, 255))
 color_combined = np.zeros_like(mag_binary)
 color_combined[((combined == 1)) | ((S == 1))] = 1    #& (R == 1)
 
-
-"""
-plt.figure(1)
-	#regular
-plt.subplot(221)
-plt.title('original')
-plt.imshow(img)
-
-
-plt.subplot(222)
-plt.title('color_combined')
-plt.imshow(color_combined, cmap = 'gray')
-plt.show()
-"""
+#plt.imshow(color_combined, cmap = 'gray')
+#plt.show()
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -131,6 +112,9 @@ src = vertices
 dst = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
 
 warped = Unwarp.unwarp(color_combined, src, dst)
+
+plt.imshow(warped, cmap = 'gray')
+plt.show()
 
 """
 plt.figure(1)
@@ -236,19 +220,19 @@ final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
 
 h = final.shape[0]
 font = cv2.FONT_HERSHEY_DUPLEX
-text = 'Curve radius: ' + '{:04.2f}'.format(curv) + 'm'
-cv2.putText(final, text, (40,70), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+text = 'CURVE RADIUS: ' + '{:04.2f}'.format(curv) + ' (m)'
+cv2.putText(final, text, (40,70), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 direction = ''
 if offset > 0:
 	direction = 'right'
 elif offset < 0:
 	direction = 'left'
 abs_center_dist = abs(offset)
-text = '{:04.3f}'.format(abs_center_dist) + 'm ' + direction + ' of center'
-cv2.putText(final, text, (40,120), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
+cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
-plt.imshow(final)
-plt.show()
+#plt.imshow(final)
+#plt.show()
 
 
 
