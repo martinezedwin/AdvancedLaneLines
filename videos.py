@@ -228,7 +228,7 @@ def pipeline_vid(image):
 	h = final.shape[0]
 	font = cv2.FONT_HERSHEY_DUPLEX
 	text = 'Curve radius: ' + '{:04.2f}'.format(curv) + 'm'
-	cv2.putText(final, text, (40,70), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+	cv2.putText(final, text, (40,70), font, 1.5, (200,255,255), 2, cv2.LINE_AA)
 	direction = ''
 	if offset > 0:
 		direction = 'right'
@@ -236,7 +236,7 @@ def pipeline_vid(image):
 		direction = 'left'
 	abs_center_dist = abs(offset)
 	text = '{:04.3f}'.format(abs_center_dist) + 'm ' + direction + ' of center'
-	cv2.putText(final, text, (40,120), font, 1.5, (200,255,155), 2, cv2.LINE_AA)
+	cv2.putText(final, text, (40,120), font, 1.5, (200,255,255), 2, cv2.LINE_AA)
 	
 	return final
 

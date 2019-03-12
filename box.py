@@ -113,8 +113,8 @@ dst = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
 
 warped = Unwarp.unwarp(color_combined, src, dst)
 
-plt.imshow(warped, cmap = 'gray')
-plt.show()
+#plt.imshow(warped, cmap = 'gray')
+#plt.show()
 
 """
 plt.figure(1)
@@ -138,19 +138,9 @@ plt.show()
 #5. Detect lane pixels and fit to find the lane boundary.
 
 histogram = np.sum(warped[warped.shape[0]//2:,:], axis = 0)
-"""
-plt.figure(1)
-	#regular
-plt.subplot(221)
-plt.title('warped')
-plt.imshow(warped, cmap = 'gray')
+#plt.plot(histogram)
+#plt.show()
 
-
-plt.subplot(223)
-plt.title('histogram')
-plt.plot(histogram)
-plt.show()
-"""
 
 out_img, left_fit, right_fit = FindPix.fit_polynomial(warped)
 
