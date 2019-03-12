@@ -186,6 +186,18 @@ def pipeline_vid(image):
 	#plt.imshow(result)
 	#plt.show()
 
+
+	warp_zero = np.zeros_like(warped).astype(np.uint8)
+	color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+
+	pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+	pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+	pts = np.hstack((pts_left, pts_right))
+
+	f = cv2.fillPoly(color_warp, np.int_([pts]), (0,100, 0))
+	#plt.imshow(f, cmap = 'gray')
+	#plt.show()
+
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -213,7 +225,7 @@ def pipeline_vid(image):
 	# 7. Warp the detected lane boundaries back onto the original image.
 	dst_reverse = vertices
 	src_reverse = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
-	reverse_warp = Unwarp.unwarp(result, src_reverse, dst_reverse)
+	reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 
 	#plt.imshow(reverse_warp)
 	#plt.show() 
