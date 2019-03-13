@@ -256,7 +256,7 @@ def process_image(image):
 	result = pipeline_vid(image)
 	return result
 
-test = 'output_images/test2.mp4'
+test = 'output_images/project_video_output.mp4'
 ## To speed up the testing process you may want to try your pipeline on a shorter subclip of the video
 ## To do so add .subclip(start_second,end_second) to the end of the line below
 ## Where start_second and end_second are integer values representing the start and end of the subclip

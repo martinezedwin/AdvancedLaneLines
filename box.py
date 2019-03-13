@@ -116,20 +116,7 @@ warped = Unwarp.unwarp(color_combined, src, dst)
 #plt.imshow(warped, cmap = 'gray')
 #plt.show()
 
-"""
-plt.figure(1)
-	#regular
-plt.subplot(221)
-plt.title('original')
-plt.imshow(color_combined, cmap = 'gray')
 
-
-plt.subplot(222)
-plt.title('warped')
-plt.imshow(warped, cmap = 'gray')
-plt.show()
-
-"""
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -154,10 +141,10 @@ out_img, left_fit, right_fit = FindPix.fit_polynomial(warped)
 # Note that in your project, you'll also want to feed in the previous fits
 result, left_fitx, right_fitx, ploty= FindPix.search_around_poly(warped, left_fit, right_fit)
 
-#print(right_fitx)
-# View your output
 #plt.imshow(result)
 #plt.show()
+
+#Fill in the lane between the detected lane lines
 warp_zero = np.zeros_like(warped).astype(np.uint8)
 color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
 
@@ -214,8 +201,8 @@ reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 #plt.show() 
 
 final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
-#plt.imshow(final)
-#plt.show()
+plt.imshow(final)
+plt.show()
 
 
 h = final.shape[0]
