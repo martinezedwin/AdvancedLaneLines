@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg 
 import pickle
 
-def image_calib(image, nx, ny):
-	img = cv2.imread(image)
+def image_calib(img, nx, ny):
+	img = cv2.imread(img)
 
 	#Convert to grayscale	
 	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-	print(image)
+	#print(image)
 
 	for i in range(len(nx)):
 		for j in range(len(ny)):
@@ -39,7 +39,7 @@ def image_calib(image, nx, ny):
 				pickle.dump(dist_pickle, open('calibration.p', 'wb'))
 
 				undist = cv2.undistort(img, mtx, dist, None, mtx)
-				#(undist, cmap = 'gray')
+				#plt.imshow(undist, cmap = 'gray')
 				#plt.show()
 				offset = 100
 				img_size = (gray.shape[1], gray.shape[0])

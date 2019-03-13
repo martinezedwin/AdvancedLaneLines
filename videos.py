@@ -35,20 +35,7 @@ def pipeline_vid(image):
 
 	undist = Undistort.undistort(img, mtx, dist)
 
-	"""
-	plt.figure(1)
-		#regular
-	plt.subplot(221)
-	plt.title('original')
-	plt.imshow(img)
 
-
-	plt.subplot(222)
-	plt.title('undist')
-	plt.imshow(undist, cmap = 'gray')
-
-	plt.show()
-	"""
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -133,20 +120,7 @@ def pipeline_vid(image):
 
 	warped = Unwarp.unwarp(color_combined, src, dst)
 
-	"""
-	plt.figure(1)
-		#regular
-	plt.subplot(221)
-	plt.title('original')
-	plt.imshow(color_combined, cmap = 'gray')
 
-
-	plt.subplot(222)
-	plt.title('warped')
-	plt.imshow(warped, cmap = 'gray')
-	plt.show()
-
-	"""
 
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -155,19 +129,7 @@ def pipeline_vid(image):
 	#5. Detect lane pixels and fit to find the lane boundary.
 
 	histogram = np.sum(warped[warped.shape[0]//2:,:], axis = 0)
-	"""
-	plt.figure(1)
-		#regular
-	plt.subplot(221)
-	plt.title('warped')
-	plt.imshow(warped, cmap = 'gray')
-
-
-	plt.subplot(223)
-	plt.title('histogram')
-	plt.plot(histogram)
-	plt.show()
-	"""
+	
 
 	out_img, left_fit, right_fit = FindPix.fit_polynomial(warped)
 

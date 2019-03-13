@@ -201,8 +201,8 @@ reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 #plt.show() 
 
 final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
-plt.imshow(final)
-plt.show()
+#plt.imshow(final)
+#plt.show()
 
 
 h = final.shape[0]
