@@ -66,11 +66,11 @@ def pipeline_vid(image):
 
 	#ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 	#ColorSpaces.H_gradients(undist, thresh = (100, 130))
-	#ColorSpaces.L_gradients(image, thresh = (100, 130))
-	S = ColorSpaces.S_gradients(undist, thresh = (130, 255))
+	L = ColorSpaces.L_gradients(image, thresh = (100, 130))
+	S = ColorSpaces.S_gradients(undist, thresh = (180, 255))
 
 	color_combined = np.zeros_like(mag_binary)
-	color_combined[((combined == 1)) | ((S == 1))] = 1    #& (R == 1)
+	color_combined[((combined == 1)) | ((S == 1) & (L ==1))] = 1    #& (R == 1)
 
 
 	"""

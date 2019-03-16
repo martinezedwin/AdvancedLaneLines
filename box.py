@@ -31,7 +31,7 @@ mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
 #read in test imageimage
-fname = 'test_images/straight_lines1.jpg'
+fname = 'test_images/test5.jpg'
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #UNIDSTORT IMAGE
@@ -61,21 +61,22 @@ mag_binary = ColorSpaces.mag_thresh(undist, sobel_kernel=ksize, mag_thresh=(50, 
 #dir_binary = ColorSpaces.dir_threshold(undist, sobel_kernel=ksize, thresh=(1.4, np.pi/2))#np.pi/2))
 
 combined = np.zeros_like(mag_binary)
-combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1))] = 1    # & (dir_binary == 1)
+combined[((gradx == 1))] = 1    #& (grady == 1) | ((mag_binary == 1)) & (dir_binary == 1)
 
 #ColorSpaces.gray_gradients(undist, thresh = (100, 130))
 #ColorSpaces.RGB_gradients(undist, thresh = (100, 130))
 R = ColorSpaces.R_gradients(undist, thresh = (180, 255)) #Useful for test img, 2, 3, 6, s1, s2
-G = ColorSpaces.G_gradients(undist, thresh = (180, 255)) #2, 3, 6, s1, s2
-
+G = ColorSpaces.G_gradients(undist, thresh = (100, 255)) #2, 3, 6, s1, s2
+B = ColorSpaces.B_gradients(undist, thresh = (145, 200))
 
 #ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 #ColorSpaces.H_gradients(undist, thresh = (100, 130))
-#ColorSpaces.L_gradients(image, thresh = (100, 130))
-S = ColorSpaces.S_gradients(undist, thresh = (130, 255))
+#H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
+L = ColorSpaces.L_gradients(undist, thresh = (100, 200))
+S = ColorSpaces.S_gradients(undist, thresh = (180, 255))
 
 color_combined = np.zeros_like(mag_binary)
-color_combined[((combined == 1)) | ((S == 1))] = 1    #& (R == 1)
+color_combined[((combined == 1) & (R == 1) & (G == 1)) | ((S == 1) )] = 1    #& (R == 1)  (L ==1)
 
 #plt.imshow(color_combined, cmap = 'gray')
 #plt.show()
@@ -113,8 +114,8 @@ dst = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
 
 warped = Unwarp.unwarp(color_combined, src, dst)
 
-#plt.imshow(warped, cmap = 'gray')
-#plt.show()
+plt.imshow(warped, cmap = 'gray')
+plt.show()
 
 
 
@@ -218,8 +219,8 @@ abs_center_dist = abs(offset)
 text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
 cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
-plt.imshow(final)
-plt.show()
+#plt.imshow(final)
+#plt.show()
 
 
 

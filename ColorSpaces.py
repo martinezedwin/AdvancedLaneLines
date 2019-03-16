@@ -165,6 +165,7 @@ def B_gradients(img, thresh = (0, 255)):
 	B = img[:,:,2]
 	binary_B = np.zeros_like(B)
 	binary_B[(B > thresh[0]) & (B <= thresh[1])] = 1
+	"""
 	plt.figure(1)
 
 	plt.subplot(221)
@@ -180,7 +181,7 @@ def B_gradients(img, thresh = (0, 255)):
 	plt.imshow(binary_B, cmap = 'gray')
 
 	plt.show()
-
+	"""
 
 def HLS_gradients(img, thresh = (0, 255)):
 	hls = cv2.cvtColor(img, cv2.COLOR_RGB2HLS)
@@ -235,7 +236,7 @@ def L_gradients(img, thresh = (0, 255)):
 	L = hls[:,:,1]
 	binary_L = np.zeros_like(L)
 	binary_L[(L > thresh[0]) & (L <= thresh[1])] = 1
-
+"""
 	plt.figure(1)
 
 	plt.subplot(221)
@@ -251,7 +252,7 @@ def L_gradients(img, thresh = (0, 255)):
 	plt.imshow(binary_L, cmap = 'gray')
 
 	plt.show()
-
+"""
 def S_gradients(img, thresh = (0, 255)):
 	hls = cv2.cvtColor(img, cv2.COLOR_RGB2HLS)
 	S = hls[:,:,2]
