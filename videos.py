@@ -66,12 +66,16 @@ def pipeline_vid(image):
 
 	#ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 	#ColorSpaces.H_gradients(undist, thresh = (100, 130))
-	#H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
-	L = ColorSpaces.L_gradients(undist, thresh = (100, 155))
-	S = ColorSpaces.S_gradients(undist, thresh = (110, 255))
+	H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
+	L = ColorSpaces.L_gradients(undist, thresh = (200, 255))
+	S = ColorSpaces.S_gradients(undist, thresh = (20, 255))
+
+	#LAB = ColorSpaces.LAB_gradients(undist, thresh = (0, 255))
+
+	Bb = ColorSpaces.Bb_gradients(undist, thresh = (150, 255))
 
 	color_combined = np.zeros_like(mag_binary)
-	color_combined[(R == 1) & (G == 1) & (S == 1) | (L == 1)] = 1    # | ((S == 1) & (G == 1) & (R == 1))
+	color_combined[(Bb == 1) | (L == 1)]= 1  
 
 
 	"""
@@ -225,6 +229,6 @@ test = 'output_images/project_video_output.mp4'
 ## Where start_second and end_second are integer values representing the start and end of the subclip
 ## You may also uncomment the following line for a subclip of the first 5 seconds
 #clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4").subclip(0,5)
-clip1 = VideoFileClip("project_video.mp4").subclip(20, 25)
+clip1 = VideoFileClip("project_video.mp4")
 test1_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
 test1_clip.write_videofile(test, audio=False)

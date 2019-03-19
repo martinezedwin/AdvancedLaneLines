@@ -41,7 +41,7 @@ Using the distortion coefficients obtained in the camera calibration, we can cor
 
 ### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image. Provide an example of a binary image result.
 
-A conbination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. A conbination of R, G from the RGB color space, the S from the HLS space and x, y gradients where used as shown in lines 54 thorugh 78 of box.py
+A conbination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. A conbination of L from HLS color space and B from LAB color space where used as shown in lines 68 thorugh 83 of box.py
 
 In the end the output looked something like this:
 ![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients.jpg)

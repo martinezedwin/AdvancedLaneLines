@@ -31,7 +31,7 @@ mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
 #read in test imageimage
-fname = 'test_images/test1.jpg'
+fname = 'test_images/straight_lines2.jpg'
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #UNIDSTORT IMAGE
@@ -71,13 +71,13 @@ B = ColorSpaces.B_gradients(undist, thresh = (200, 255))
 
 #ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 #ColorSpaces.H_gradients(undist, thresh = (100, 130))
-#H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
+H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
 L = ColorSpaces.L_gradients(undist, thresh = (200, 255))
 S = ColorSpaces.S_gradients(undist, thresh = (20, 255))
 
+#LAB = ColorSpaces.LAB_gradients(undist, thresh = (0, 255))
 
-
-Bb = ColorSpaces.Bb_gradients(undist, thresh = (200, 255))
+Bb = ColorSpaces.Bb_gradients(undist, thresh = (150, 255))
 
 color_combined = np.zeros_like(mag_binary)
 color_combined[(Bb == 1) | (L == 1)]= 1  
@@ -226,8 +226,8 @@ abs_center_dist = abs(offset)
 text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
 cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
-plt.imshow(final)
-plt.show()
+#plt.imshow(final)
+#plt.show()
 
 
 
