@@ -31,7 +31,7 @@ mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
 #read in test imageimage
-fname = 'test_images/test5.jpg'
+fname = 'test_images/test1.jpg'
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #UNIDSTORT IMAGE
@@ -51,11 +51,11 @@ undist = Undistort.undistort(img, mtx, dist)
 
 
 # Choose a Sobel kernel size
-ksize = 3 # Choose a larger odd number to smooth gradient measurements
+ksize = 13 # Choose a larger odd number to smooth gradient measurements
 
 
 # Apply each of the thresholding functions
-gradx = ColorSpaces.abs_sobel_thresh(undist, orient='x', sobel_kernel=ksize, thresh=(20, 100))
+gradx = ColorSpaces.abs_sobel_thresh(undist, orient='x', sobel_kernel=ksize, thresh=(15, 100))
 grady = ColorSpaces.abs_sobel_thresh(undist, orient='y', sobel_kernel=ksize, thresh=(30, 100))
 mag_binary = ColorSpaces.mag_thresh(undist, sobel_kernel=ksize, mag_thresh=(50, 200))
 #dir_binary = ColorSpaces.dir_threshold(undist, sobel_kernel=ksize, thresh=(1.4, np.pi/2))#np.pi/2))
@@ -66,17 +66,24 @@ combined[((gradx == 1))] = 1    #& (grady == 1) | ((mag_binary == 1)) & (dir_bin
 #ColorSpaces.gray_gradients(undist, thresh = (100, 130))
 #ColorSpaces.RGB_gradients(undist, thresh = (100, 130))
 R = ColorSpaces.R_gradients(undist, thresh = (180, 255)) #Useful for test img, 2, 3, 6, s1, s2
-G = ColorSpaces.G_gradients(undist, thresh = (100, 255)) #2, 3, 6, s1, s2
-B = ColorSpaces.B_gradients(undist, thresh = (145, 200))
+G = ColorSpaces.G_gradients(undist, thresh = (130, 255)) #2, 3, 6, s1, s2
+B = ColorSpaces.B_gradients(undist, thresh = (200, 255))
 
 #ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 #ColorSpaces.H_gradients(undist, thresh = (100, 130))
 #H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
-L = ColorSpaces.L_gradients(undist, thresh = (100, 200))
-S = ColorSpaces.S_gradients(undist, thresh = (180, 255))
+L = ColorSpaces.L_gradients(undist, thresh = (200, 255))
+S = ColorSpaces.S_gradients(undist, thresh = (20, 255))
+
+
+
+Bb = ColorSpaces.Bb_gradients(undist, thresh = (200, 255))
 
 color_combined = np.zeros_like(mag_binary)
-color_combined[((combined == 1) & (R == 1) & (G == 1)) | ((S == 1) )] = 1    #& (R == 1)  (L ==1)
+color_combined[(Bb == 1) | (L == 1)]= 1  
+
+#((combined == 1))
+
 
 #plt.imshow(color_combined, cmap = 'gray')
 #plt.show()
@@ -219,8 +226,8 @@ abs_center_dist = abs(offset)
 text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
 cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
-#plt.imshow(final)
-#plt.show()
+plt.imshow(final)
+plt.show()
 
 
 

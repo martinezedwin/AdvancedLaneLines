@@ -56,21 +56,22 @@ def pipeline_vid(image):
 	#dir_binary = ColorSpaces.dir_threshold(undist, sobel_kernel=ksize, thresh=(1.4, np.pi/2))#np.pi/2))
 
 	combined = np.zeros_like(mag_binary)
-	combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1))] = 1    # & (dir_binary == 1)
+	combined[((gradx == 1))] = 1    # & (dir_binary == 1)
 
 	#ColorSpaces.gray_gradients(undist, thresh = (100, 130))
 	#ColorSpaces.RGB_gradients(undist, thresh = (100, 130))
 	R = ColorSpaces.R_gradients(undist, thresh = (180, 255)) #Useful for test img, 2, 3, 6, s1, s2
-	G = ColorSpaces.G_gradients(undist, thresh = (180, 255)) #2, 3, 6, s1, s2
-
+	G = ColorSpaces.G_gradients(undist, thresh = (130, 255)) #2, 3, 6, s1, s2
+	B = ColorSpaces.B_gradients(undist, thresh = (200, 255))
 
 	#ColorSpaces.HLS_gradients(undist, thresh = (100, 130))
 	#ColorSpaces.H_gradients(undist, thresh = (100, 130))
-	L = ColorSpaces.L_gradients(image, thresh = (100, 130))
-	S = ColorSpaces.S_gradients(undist, thresh = (180, 255))
+	#H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
+	L = ColorSpaces.L_gradients(undist, thresh = (100, 155))
+	S = ColorSpaces.S_gradients(undist, thresh = (110, 255))
 
 	color_combined = np.zeros_like(mag_binary)
-	color_combined[((combined == 1)) | ((S == 1) & (L ==1))] = 1    #& (R == 1)
+	color_combined[(R == 1) & (G == 1) & (S == 1) | (L == 1)] = 1    # | ((S == 1) & (G == 1) & (R == 1))
 
 
 	"""
@@ -224,6 +225,6 @@ test = 'output_images/project_video_output.mp4'
 ## Where start_second and end_second are integer values representing the start and end of the subclip
 ## You may also uncomment the following line for a subclip of the first 5 seconds
 #clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4").subclip(0,5)
-clip1 = VideoFileClip("project_video.mp4")
+clip1 = VideoFileClip("project_video.mp4").subclip(20, 25)
 test1_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
 test1_clip.write_videofile(test, audio=False)

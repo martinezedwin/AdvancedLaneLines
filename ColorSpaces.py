@@ -236,6 +236,9 @@ def L_gradients(img, thresh = (0, 255)):
 	L = hls[:,:,1]
 	binary_L = np.zeros_like(L)
 	binary_L[(L > thresh[0]) & (L <= thresh[1])] = 1
+
+
+	return binary_L
 """
 	plt.figure(1)
 
@@ -276,3 +279,80 @@ def S_gradients(img, thresh = (0, 255)):
 	plt.show()
 	"""
 	return binary_S
+
+
+
+def LAB_gradients(img, thresh = (0, 255)):
+	lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+	L = lab[:,:,0]
+	A = lab[:,:,1]
+	B = lab[:,:,2]
+
+	plt.figure(1)
+
+	plt.subplot(221)
+	plt.title('original')
+	plt.imshow(img)
+
+	plt.subplot(222)
+	plt.title('L')
+	plt.imshow(L, cmap = 'gray')
+
+	plt.subplot(223)
+	plt.title('A')
+	plt.imshow(A, cmap = 'gray')
+
+	plt.subplot(224)
+	plt.title('B')
+	plt.imshow(B, cmap = 'gray')
+
+	plt.show()
+
+
+def Ll_gradients(img, thresh = (0, 255)):
+	lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+	Ll = lab[:,:,0]
+	binary_ll = np.zeros_like(S)
+	binary_Ll[(Ll > thresh[0]) & (Ll <= thresh[1])] = 1
+	"""
+	plt.figure(1)
+
+	plt.subplot(221)
+	plt.title('original')
+	plt.imshow(img)
+
+	plt.subplot(222)
+	plt.title('S')
+	plt.imshow(S, cmap = 'gray')
+
+	plt.subplot(223)
+	plt.title('binary S')
+	plt.imshow(binary_S, cmap = 'gray')
+
+	plt.show()
+	"""
+	return binary_Ll
+
+def Bb_gradients(img, thresh = (0, 255)):
+	lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+	Bb = lab[:,:,0]
+	binary_Bb = np.zeros_like(Bb)
+	binary_Bb[(Bb > thresh[0]) & (Bb <= thresh[1])] = 1
+	"""
+	plt.figure(1)
+
+	plt.subplot(221)
+	plt.title('original')
+	plt.imshow(img)
+
+	plt.subplot(222)
+	plt.title('S')
+	plt.imshow(S, cmap = 'gray')
+
+	plt.subplot(223)
+	plt.title('binary S')
+	plt.imshow(binary_S, cmap = 'gray')
+
+	plt.show()
+	"""
+	return binary_Bb
