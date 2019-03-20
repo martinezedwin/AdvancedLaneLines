@@ -1,4 +1,7 @@
-#Gradients and color spaces
+"""
+Different functions to help implement and visualize different gradients, color thhresholding using 
+RGB, HLS, and LAB color spaces.
+"""
 import numpy as np 
 import cv2
 import matplotlib.pyplot as plt 
@@ -239,7 +242,7 @@ def L_gradients(img, thresh = (0, 255)):
 
 
 	return binary_L
-"""
+	"""
 	plt.figure(1)
 
 	plt.subplot(221)
