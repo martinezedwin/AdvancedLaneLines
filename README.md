@@ -33,7 +33,7 @@ I then used the output objpoints and imgpoints to compute the camera calibration
 ### 1. Provide an example of a distortion-corrected image.
 
 We will be using test_images/straight_lines1.jpg as an example for the rest of this tutorial:
-![Test Imiage](./test_images/straight_lines1_edit.jpg)
+![Test Imiage](./test_images/straight_lines1.jpg)
 
 
 Using the distortion coefficients obtained in the camera calibration, we can correct the distortion of the image:
