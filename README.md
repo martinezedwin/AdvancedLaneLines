@@ -1,5 +1,5 @@
 ## Advanced Lane Finding
-![Lanes Image](./output_images/straight_lines1_final.jpg)
+![Lanes Image](./output_images/straight_lines1_final_edit.jpg)
 
 
 Goals
@@ -27,31 +27,31 @@ I start by preparing "object points", which will be the (x, y, z) coordinates of
 
 I then used the output objpoints and imgpoints to compute the camera calibration and distortion coefficients using the cv2.calibrateCamera() function. I applied this distortion correction to the test image using the cv2.undistort() function and obtained this result:
 
-![Calibration Image](./camera_cal/calibration1.jpg)
+![Calibration Image](./camera_cal/calibration1_edit.jpg)
 ![Calibration Image Undistorted](./output_images/calibration1_undistorted.jpg)
 
 ### 1. Provide an example of a distortion-corrected image.
 
 We will be using test_images/straight_lines1.jpg as an example for the rest of this tutorial:
-![Test Imiage](./test_images/straight_lines1.jpg)
+![Test Imiage](./test_images/straight_lines1_edit.jpg)
 
 
 Using the distortion coefficients obtained in the camera calibration, we can correct the distortion of the image:
-![Undistorted](./output_images/straight_lines1_undist.jpg)
+![Undistorted](./output_images/straight_lines1_undist_edit.jpg)
 
 ### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image. Provide an example of a binary image result.
 
 A conbination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. A conbination of L from HLS color space and B from LAB color space where used as shown in lines 68 thorugh 83 of box.py
 
 In the end the output looked something like this:
-![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients.jpg)
+![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)
 
 ### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 In order to perform a perspective transform or "Birds-eye view" a trapezoid was defined by four vertices that correspond to coordinates on the image.
 
 These verteceis became the src. The destination points or dst where also define using the shape of the image. By using the Unwarp.unwarp funciton that contains hte cv2.getPersepectiveTransform() and cv2.warpPerspective() in lines 88 through 114 of box.py a birds-eye view was obtained.
-![Birds-eye view](./output_images/straight_lines_bird_eye_view.jpg)
+![Birds-eye view](./output_images/straight_lines_bird_eye_view_edit.jpg)
 
 
 ### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
@@ -62,7 +62,7 @@ For new undetected pixel images we start from the bottom of the image which woul
 
 For videos where we have already identified pixels in the previous frame, a focused search to where the prvious lane pixels where identified helps speed things up. This is shown in FindPix.py in find_lane_pils() and search_around_poly(). The pixels are then used to fit a polynomial by the fit_poly() functions.
 
-![Lane pixels](./output_images/straight_lines1_lane_boxes.jpg)
+![Lane pixels](./output_images/straight_lines1_lane_boxes_edit.jpg)
 
 ### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
@@ -74,7 +74,7 @@ Assuming that the camera is placed in the center of the car and thus the center 
 
 ### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-![Final Output](./output_images/straight_lines1_final.jpg)
+![Final Output](./output_images/straight_lines1_final_edit.jpg)
 
 
 ---
