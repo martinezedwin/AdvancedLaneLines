@@ -51,7 +51,7 @@ In the end the output looked something like this:
 In order to perform a perspective transform or "Birds-eye view" a trapezoid was defined by four vertices that correspond to coordinates on the image.
 
 These verteceis became the src. The destination points or dst where also define using the shape of the image. By using the Unwarp.unwarp funciton that contains hte cv2.getPersepectiveTransform() and cv2.warpPerspective() in lines 88 through 114 of box.py a birds-eye view was obtained.
-![Birds-eye view](./output_images/straight_lines_bird_eye_view_edit.jpg)
+![Birds-eye view](./output_images/striaght_lines_bird_eye_view_edit.jpg)
 
 
 ### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
