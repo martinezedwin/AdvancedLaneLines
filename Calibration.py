@@ -1,9 +1,18 @@
-#Camera calibration
+"""
+The main purpose of this is to obtain distortion coefficients of the cammera using the Chessboard images.
+These coefficients will then be applied to the images of the lane lines to correct the natural lense distortion.
+This is what it means by 'Calibration'
+
+This program is used by get_calibration_factors.py to cycle through all given chessboard images and save the distortion
+coefficients.
+"""
+
 import numpy as np 
 import cv2
 import matplotlib.pyplot as plt 
 import matplotlib.image as mpimg 
 import pickle
+
 
 def image_calib(img, nx, ny):
 	img = cv2.imread(img)
@@ -11,8 +20,11 @@ def image_calib(img, nx, ny):
 	#Convert to grayscale	
 	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-	#print(image)
-
+	#In the next section, for every combination of nx and ny, try to find the corners using cv2.findChessboardCorners
+	#If it does find the conrners (ret == True), it will add the conrers to imgpoints
+	#It will also grab the mtx and dist and adds them to a pickle file that will be creted for later use on other images (This is the main purpose of doing this step)
+	#Then it used the values to undistort the image correcting the distortion of the cammera
+	#The perspective transform to switch to a better viewing angle is just extra
 	for i in range(len(nx)):
 		for j in range(len(ny)):
 			ret, corners = cv2.findChessboardCorners(gray, (nx[i], ny[j]), None)
@@ -27,9 +39,6 @@ def image_calib(img, nx, ny):
 			if ret == True:
 				imgpoints.append(corners)
 				objpoints.append(objp)
-				#cv2.drawChessboardCorners(img, (nx[i], ny[j]), corners, ret)
-				#plt.imshow(img)
-				#plt.show()
 				
 				ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
@@ -39,8 +48,7 @@ def image_calib(img, nx, ny):
 				pickle.dump(dist_pickle, open('calibration.p', 'wb'))
 
 				undist = cv2.undistort(img, mtx, dist, None, mtx)
-				#plt.imshow(undist, cmap = 'gray')
-				#plt.show()
+				
 				offset = 100
 				img_size = (gray.shape[1], gray.shape[0])
 
@@ -51,7 +59,3 @@ def image_calib(img, nx, ny):
 				M = cv2.getPerspectiveTransform(src, dst)
 
 				warped = cv2.warpPerspective(undist, M, img_size)
-				#plt.imshow(warped, cmap = 'gray')
-				#plt.show()
-
-
