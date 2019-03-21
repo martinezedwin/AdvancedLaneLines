@@ -1,6 +1,7 @@
 ## Advanced Lane Finding
 ![Lanes Image](./output_images/straight_lines1_final.jpg)
 
+Final output video: https://www.youtube.com/watch?v=g0TxAKaxdNk
 
 Goals
 ---
