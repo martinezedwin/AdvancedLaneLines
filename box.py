@@ -28,13 +28,13 @@ dist_pickle = pickle.load(open("calibration.p", "rb"))
 mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 dist = dist_pickle["dist"]
 
-<<<<<<< HEAD
+
 #read in test imageimage
 fname = 'test_images/test1.jpg'
-=======
+
 #Read in test imageimage
 fname = 'test_images/straight_lines2.jpg'
->>>>>>> ff1d676dfec13680e1c17d21fe2bb96353d90cfd
+
 img = cv2.imread(fname)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
