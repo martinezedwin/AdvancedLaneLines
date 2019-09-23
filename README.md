@@ -4,7 +4,7 @@
 
 Goal: Find the lane lines and highlight the lane.
 ---
-Overview of the algorithm:
+Algorithm overview:
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 * Apply a distortion correction to raw images.
