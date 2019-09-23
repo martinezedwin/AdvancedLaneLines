@@ -2,9 +2,9 @@
 
 [![Final result video](./output_images/Advanced_lane_lines_video_image.png)](https://www.youtube.com/watch?v=g0TxAKaxdNk)
 
-Goals
+Goal: Find the lane lines and highlight the lane.
 ---
-The goals / steps of this project are the following:
+Overview of the algorithm:
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 * Apply a distortion correction to raw images.
