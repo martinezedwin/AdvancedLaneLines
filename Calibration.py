@@ -14,6 +14,7 @@ import matplotlib.image as mpimg
 import pickle
 
 def image_calib(img, nx, ny):
+	#Read in the image in cv2
 	img = cv2.imread(img)
 
 	#Convert to grayscale	
@@ -44,7 +45,7 @@ def image_calib(img, nx, ny):
 				dist_pickle = {}
 				dist_pickle['mtx'] = mtx
 				dist_pickle['dist'] = dist
-				pickle.dump(dist_pickle, open('calibration.p', 'wb'))
+				pickle.dump(dist_pickle, open('calibration_ignore.p', 'wb'))
 
 				undist = cv2.undistort(img, mtx, dist, None, mtx)
 				
