@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg 
 import pickle
 
-
 def image_calib(img, nx, ny):
 	img = cv2.imread(img)
 
