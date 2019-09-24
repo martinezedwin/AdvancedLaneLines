@@ -15,6 +15,18 @@ Algorithm overview:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+Dependencies
+---
+This project was run with the following:
+
+* [Python 3.6.8](https://www.python.org/downloads/) but 3.4+ should work.
+* [Matplotlib 3.1.1](https://matplotlib.org/3.1.1/users/installing.html)
+* [Numpy 1.17.1](https://docs.scipy.org/doc/numpy/user/install.html)
+* [OpenCV 4.1.0](https://docs.opencv.org/).
+* [IPython 7.7.0](https://ipython.org/install.html)
+* [MoviePy 1.0.0](https://zulko.github.io/moviepy/install.html)
+
+
 Details
 ---
 ### Camera Calibration
