@@ -26,6 +26,12 @@ This project was run with the following:
 * [IPython 7.7.0](https://ipython.org/install.html)
 * [MoviePy 1.0.0](https://zulko.github.io/moviepy/install.html)
 
+Files
+---
+1. **Calibration.py, get_calibration_factors.py, calibration.p**: Calibrations and get_calibration_factors are used in conjunction once to get the calibration factors that are stored in calibration.p and used in the rest of the program.
+2. **box.py**: Used to run the algorithm on a single image at a time.
+3. **videos.py**: Used to run the algorithm on a video.
+
 
 Details
 ---
