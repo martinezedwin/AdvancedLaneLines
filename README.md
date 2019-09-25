@@ -42,6 +42,10 @@ I then used the output objpoints and imgpoints to compute the camera calibration
 ![Calibration Image](./camera_cal/calibration1.jpg)
 ![Calibration Image Undistorted](./output_images/calibration1_undistorted_edit.jpg)
 
+| Before                                                | After                                                                               |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------|
+|![Calibration Image](./camera_cal/calibration1.jpg)    |![Calibration Image Undistorted](./output_images/calibration1_undistorted_edit.jpg)  |
+
 ### 1. Provide an example of a distortion-corrected image.
 
 We will be using test_images/straight_lines1.jpg as an example for the rest of this tutorial:
