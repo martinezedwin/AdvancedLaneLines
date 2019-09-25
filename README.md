@@ -39,21 +39,19 @@ I start by preparing "object points", which will be the (x, y, z) coordinates of
 
 I then used the output objpoints and imgpoints to compute the camera calibration and distortion coefficients using the cv2.calibrateCamera() function. I applied this distortion correction to the test image using the cv2.undistort() function and obtained this result:
 
-![Calibration Image](./camera_cal/calibration1.jpg)
-![Calibration Image Undistorted](./output_images/calibration1_undistorted_edit.jpg)
 
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
 |![Calibration Image](./camera_cal/calibration1.jpg)    |![Calibration Image Undistorted](./output_images/calibration1_undistorted_edit.jpg)  |
 
-### 1. Provide an example of a distortion-corrected image.
+
+### Example of a distortion-corrected image.
 
 We will be using test_images/straight_lines1.jpg as an example for the rest of this tutorial:
-![Test Imiage](./test_images/straight_lines1.jpg)
 
-
-Using the distortion coefficients obtained in the camera calibration, we can correct the distortion of the image:
-![Undistorted](./output_images/straight_lines1_undist_edit.jpg)
+| Before                                                | After                                                                               |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------|
+|![Test Imiage](./test_images/straight_lines1.jpg)      |![Undistorted](./output_images/straight_lines1_undist_edit.jpg)                      |
 
 ### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image. Provide an example of a binary image result.
 
