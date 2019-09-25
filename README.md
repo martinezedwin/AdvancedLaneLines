@@ -53,9 +53,9 @@ We will be using test_images/straight_lines1.jpg as an example for the rest of t
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
 |![Test Imiage](./test_images/straight_lines1.jpg)      |![Undistorted](./output_images/straight_lines1_undist_edit.jpg)                      |
 
-### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image. Provide an example of a binary image result.
+### Color transform and gradients to highlight lane lines.
 
-A conbination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. A conbination of L from HLS color space and B from LAB color space where used as shown in lines 68 thorugh 83 of box.py
+A combination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. The L from [HLS color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and B from [LAB color space where](https://en.wikipedia.org/wiki/CIELAB_color_space) used as shown in lines 51 thorugh 79 of box.py showed the best results.
 
 In the end the output looked something like this:
 ![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)
