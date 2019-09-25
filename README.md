@@ -58,14 +58,33 @@ We will be using test_images/straight_lines1.jpg as an example for the rest of t
 A combination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. The L from [HLS color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and B from [LAB color space where](https://en.wikipedia.org/wiki/CIELAB_color_space) used as shown in lines 51 thorugh 79 of box.py showed the best results.
 
 In the end the output looked something like this:
-![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)
+| Before                                                | After                                                                               |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------|
+|![Undistorted](./output_images/straight_lines1_undist_edit.jpg)|  ![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)|
 
-### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+
+### Perspective transform.
 
 In order to perform a perspective transform or "Birds-eye view" a trapezoid was defined by four vertices that correspond to coordinates on the image.
 
-These verteceis became the src. The destination points or dst where also define using the shape of the image. By using the Unwarp.unwarp funciton that contains hte cv2.getPersepectiveTransform() and cv2.warpPerspective() in lines 88 through 114 of box.py a birds-eye view was obtained.
-![Birds-eye view](./output_images/striaght_lines_bird_eye_view_edit.jpg)
+These verteceis became the src. The destination points or dst where also define using the shape of the image. By using the Unwarp.unwarp funciton that contains hte cv2.getPersepectiveTransform() and cv2.warpPerspective() in lines 94 through 121 of box.py a birds-eye view was obtained.
+
+```
+vertices = np.array([[(BR_h, BR_v), (BL_h,BL_v), (TL_h, TL_v), (TR_h, TR_v) ]], dtype=np.float32)
+
+h, w = img.shape[:2]
+
+src = vertices
+dst = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
+
+warped = Unwarp.unwarp(color_combined, src, dst)
+```
+
+| Before                                                | After                                                                               |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------|
+|![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)| ![Birds-eye view](./output_images/striaght_lines_bird_eye_view_edit.jpg) |
+
+
 
 
 ### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
