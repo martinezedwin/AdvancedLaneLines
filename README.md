@@ -58,9 +58,10 @@ We will be using test_images/straight_lines1.jpg as an example for the rest of t
 A combination of color transforms and gradients were tested to see which would bring out the lane lines the best in binary images. The L from [HLS color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and B from [LAB color space where](https://en.wikipedia.org/wiki/CIELAB_color_space) used as shown in lines 51 thorugh 79 of box.py showed the best results.
 
 In the end the output looked something like this:
+
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
-|![Undistorted](./output_images/straight_lines1_undist_edit.jpg)|  ![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)|
+|![Undistorted](./output_images/straight_lines1_undist_edit.jpg)|![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)|
 
 
 ### Perspective transform.
