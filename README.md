@@ -88,7 +88,7 @@ warped = Unwarp.unwarp(color_combined, src, dst)
 
 
 
-### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+### Identified lane-line pixels and fit their positions with a polynomial.
 
 In order to identify the pixels of a given binary image a historgram that shows high peaks where the lane lines are detected serves as a guide. 
 
@@ -98,7 +98,7 @@ For videos where we have already identified pixels in the previous frame, a focu
 
 ![Lane pixels](./output_images/straight_lines1_lane_boxes_edit.jpg)
 
-### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+### Calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 Using the radius curviture equation seen here: https://www.intmath.com/applications-differentiation/8-radius-curvature.php
 and the coefficients calculated by the np.polyfit() function in the fit_polynomial_cr(), the curvature for both lane lines was calculated. (FindPix.py lines 287 thorugh 307)
@@ -106,24 +106,16 @@ and the coefficients calculated by the np.polyfit() function in the fit_polynomi
 
 Assuming that the camera is placed in the center of the car and thus the center of the image, and calculating the center of the lane relative to the image, you can calculate how far off the car is from the center of the lane to the right or left. This is done in FIndPix.py in the get_offset() function.
 
-### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+### Example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 ![Final Output](./output_images/straight_lines1_final_edit.jpg)
 
 
 ---
 
-## Pipeline (video)
-### 1.  Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
-
-
-Here's a [link to my video result](./output_images/project_video_output.mp4)
-
----
-
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### Issues/Improvements
 
-The hardest part for me was finding a good combination of RGB, HLS color spaces and gradients to make it robust. This to me is a crusial part because the rest of the pipeline relies on highlighting the correct pixels (lane lines) while leaving anything extra out. By using more examples of shadows, colors, etc. it could be made more robust.
+The hardest part for me was finding a good combination of RGB, HLS color spaces and gradients to make it robust. The pipeline relies on highlighting the correct pixels (lane lines) while leaving anything extra out. By using more examples of shadows, colors, etc. it could be made more robust to be able to detect different types of lane lines under many different conditions.
 
