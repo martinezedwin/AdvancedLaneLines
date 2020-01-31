@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo 'Installing dependencies....................'
+
+sudo apt-get update
+
+#Add add-apt
+sudo apt-get install -y software-properties-common
+
+#Add repositories
+sudo add-apt-repository ppa:deadsnakes/ppa   #python
+
+#Update
+sudo apt-get update
+
+#Install needed
+sudo apt-get install -y python3-pip
+sudo apt-get install -y python3.6
+sudo apt-get install -y python3-matplotlib
+sudo apt-get install -y python3-numpy
+sudo apt-get install -y python3-scipy
+
+sudo apt-get update
+sudo apt-get install -y libsm6 libxext6 libxrender-dev
+#RUN apt-get install -y python-opencv
+sudo pip3 install opencv-python
+
+sudo pip3 install ipython==7.7.0
+sudo pip3 install moviepy==1.0.0
+
+sudo apt-get install -y gedit
+
+echo 'DONE :)'
