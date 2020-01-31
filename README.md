@@ -38,6 +38,14 @@ Locally in your machine (Tested on Ubuntu 16.04 LTS):
 
 
 Using Docker:
+1. Install docker [Docker](https://docs.docker.com/install/)
+2. Clone this repository: `https://github.com/martinezedwin/AdvancedLaneLines.git`
+3. Go int othe repository: `cd AdvancedLaneLines`
+4. Build the docker image: `sudo docker build . advancedlanelines`
+5. Run the docker container: `sudo docker run --user=$(id -u) --env="DISPLAY" -p 4567:4567 -v $PWD:/AdcancedLaneLines -v /etc/group:/etc/group:ro -v/etc/passwd:/etc/passwd:ro -v /etc/sudoers.d:/etc/sudoers.d:ro -v /tmp/.X11-unix:/tmp/.X11-unix:rw --rm -it advancedlanelines`
+6. 
+
+
 
 
 
