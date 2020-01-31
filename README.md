@@ -32,6 +32,14 @@ Files
 2. **box.py**: Used to run the algorithm on a single image at a time.
 3. **videos.py**: Used to run the algorithm on a video.
 
+How to run
+---
+Locally in your machine (Tested on Ubuntu 16.04 LTS):
+
+
+Using Docker:
+
+
 
 Details
 ---
