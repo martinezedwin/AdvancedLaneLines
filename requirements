@@ -27,6 +27,7 @@ sudo pip3 install opencv-python
 
 sudo pip3 install ipython==7.7.0
 sudo pip3 install moviepy==1.0.0
+sudo apt install -y ffmpeg
 
 sudo apt-get install -y gedit
 

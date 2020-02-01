@@ -1,13 +1,13 @@
 import Calibration
-import ColorSpaces
-import numpy as np 
+from helpers import ColorSpaces
+import numpy as np
 import cv2
-import matplotlib.pyplot as plt 
-import matplotlib.image as mpimg 
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import pickle
-import Undistort
-import Unwarp
-import FindPix
+from helpers import Undistort
+from helpers import Unwarp
+from helpers import FindPix
 from IPython.display import HTML
 from moviepy.editor import VideoFileClip
 #1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -22,7 +22,7 @@ def pipeline_vid(image):
 	#2. Apply a distortion correction to raw images.
 
 	#Read in the saved objpoints and imgpoints
-	dist_pickle = pickle.load(open("calibration.p", "rb"))
+	dist_pickle = pickle.load(open("Calibration/calibration.p", "rb"))
 	mtx = dist_pickle["mtx"] #objpoints = dist_pickle["objpoints"]
 	dist = dist_pickle["dist"]
 
@@ -51,10 +51,10 @@ def pipeline_vid(image):
 	dir_binary = ColorSpaces.dir_threshold(undist, sobel_kernel=ksize, thresh=(1.4, np.pi/2))#np.pi/2))
 
 	combined = np.zeros_like(undist)
-	combined[((gradx == 1))] = 1 
+	combined[((gradx == 1))] = 1
 
-	R = ColorSpaces.R_gradients(undist, thresh = (180, 255)) 
-	G = ColorSpaces.G_gradients(undist, thresh = (130, 255)) 
+	R = ColorSpaces.R_gradients(undist, thresh = (180, 255))
+	G = ColorSpaces.G_gradients(undist, thresh = (130, 255))
 	B = ColorSpaces.B_gradients(undist, thresh = (200, 255))
 
 	H = ColorSpaces.H_gradients(undist, thresh = (215, 255))
@@ -66,7 +66,7 @@ def pipeline_vid(image):
 	Bb = ColorSpaces.Bb_gradients(undist, thresh = (150, 255))
 
 	color_combined = np.zeros_like(mag_binary)
-	color_combined[(Bb == 1) | (L == 1)]= 1  
+	color_combined[(Bb == 1) | (L == 1)]= 1
 
 	#plt.imshow(color_combined, cmap = 'gray')
 	#plt.show()
@@ -78,7 +78,7 @@ def pipeline_vid(image):
 	#4. Apply birds eye view
 
 	#Define a trapezoind with x and y coordinates using the dimensions of the image
-	#Example: 
+	#Example:
 	#	BR_h = Bottom Right horizontal
 	#	BR_v = Bottom Right vertical
 	vertical_middle = color_combined.shape[0]/2
@@ -161,7 +161,7 @@ def pipeline_vid(image):
 	#print(left_curverad_m)
 	#print(right_curverad_m)
 
-	#get an average curvature measurement 
+	#get an average curvature measurement
 	curv = (left_curverad_m + right_curverad_m)/2
 
 	#Calculate the offset by using image size and lane line position
@@ -180,7 +180,7 @@ def pipeline_vid(image):
 	reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 
 	#plt.imshow(reverse_warp)
-	#plt.show() 
+	#plt.show()
 
 	final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
 	#plt.imshow(final)
@@ -202,19 +202,19 @@ def pipeline_vid(image):
 
 	#plt.imshow(final)
 	#plt.show()
-	
+
 	return final
 
 def process_image(image):
 	result = pipeline_vid(image)
 	return result
 
-test = 'output_images/project_video_output_test.mp4'
+test = 'output/project_video_output_test9001.mp4'
 ## To speed up the testing process you may want to try your pipeline on a shorter subclip of the video
 ## To do so add .subclip(start_second,end_second) to the end of the line below
 ## Where start_second and end_second are integer values representing the start and end of the subclip
 ## You may also uncomment the following line for a subclip of the first 5 seconds
 #clip1 = VideoFileClip("test_videos/solidWhiteRight.mp4").subclip(0,5)
-clip1 = VideoFileClip("project_video.mp4")
+clip1 = VideoFileClip("input_videos/project_video.mp4")
 test1_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
 test1_clip.write_videofile(test, audio=False)

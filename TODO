@@ -1,9 +1,9 @@
--(DONE) Install all packages needed by creating a requirements excecutable 
--Clean out the folders, anything unrelated to executing the code should be taken out
+-(DONE) Install all packages needed by creating a requirements excecutable
+-(DONE) Clean out the folders, anything unrelated to executing the code should be taken out
 -Reorganize the folders so it's clean and not just a long list of things
--Ensure you can run box.py after installing
+-(DONE) Ensure you can run box.py after installing
 -Remove the bird eye view leftover when running box.py
--Ensure you can run video.py after
--Resize images somehow
--Edit the explanations in the README
--Edit the RADME as you go but alos give a final look
+-(DONE) Ensure you can run video.py after
+-(NOT NEEDED) Resize images somehow
+-(DONE) Edit the explanations in the README
+-Edit the RADME as you go but also give a final look

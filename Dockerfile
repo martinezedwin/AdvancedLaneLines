@@ -27,10 +27,8 @@ RUN pip3 install opencv-python
 
 RUN pip3 install ipython==7.7.0
 RUN pip3 install moviepy==1.0.0
+RUN apt install -y ffmpeg
 
 RUN apt-get install -y gedit
 
 RUN echo 'DONE :)'
-
-
-

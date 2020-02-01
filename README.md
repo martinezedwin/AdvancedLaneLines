@@ -1,6 +1,6 @@
 ## Advanced Lane Finding
 
-[![Final result video](./output_images/Advanced_lane_lines_video_image.png)](https://www.youtube.com/watch?v=g0TxAKaxdNk)
+[![Final result video](./output/Advanced_lane_lines_video_image.png)](https://www.youtube.com/watch?v=g0TxAKaxdNk)
 
 Goal: Find the lane lines and highlight the lane from a video.
 ---
@@ -19,22 +19,27 @@ Dependencies
 ---
 This project was run with the following:
 
-* [Python 3.6.8](https://www.python.org/downloads/) but 3.4+ should work.
-* [Matplotlib 3.1.1](https://matplotlib.org/3.1.1/users/installing.html)
-* [Numpy 1.17.1](https://docs.scipy.org/doc/numpy/user/install.html)
-* [OpenCV 4.1.0](https://docs.opencv.org/).
+* [Python 3](https://www.python.org/downloads/) but 3.4+ should work.
+* [Matplotlib](https://matplotlib.org/3.1.1/users/installing.html)
+* [Numpy](https://docs.scipy.org/doc/numpy/user/install.html)
+* [OpenCV](https://docs.opencv.org/).
 * [IPython 7.7.0](https://ipython.org/install.html)
 * [MoviePy 1.0.0](https://zulko.github.io/moviepy/install.html)
+* [FFmpeg](https://www.ffmpeg.org/)
 
 Files
 ---
 1. **Calibration.py, get_calibration_factors.py, calibration.p**: Calibrations and get_calibration_factors are used in conjunction once to get the calibration factors that are stored in calibration.p and used in the rest of the program.
-2. **box.py**: Used to run the algorithm on a single image at a time.
+2. **pipeline.py**: Used to run the algorithm on a single image at a time.
 3. **videos.py**: Used to run the algorithm on a video.
 
 How to run
 ---
 Locally in your machine (Tested on Ubuntu 16.04 LTS):
+1. Clone this repository: `https://github.com/martinezedwin/AdvancedLaneLines.git`
+2. Go int othe repository: `cd AdvancedLaneLines`
+3. Install Dependencies: `chmod +x requirements ; ./requirements`
+4. Run pipleine.py: `python3 pipeline.py` or the pipeleine for video: `python3 video.py`
 
 
 Using Docker:
@@ -43,7 +48,8 @@ Using Docker:
 3. Go int othe repository: `cd AdvancedLaneLines`
 4. Build the docker image: `sudo docker build . advancedlanelines`
 5. Run the docker container: `sudo docker run --user=$(id -u) --env="DISPLAY" -p 4567:4567 -v $PWD:/AdcancedLaneLines -v /etc/group:/etc/group:ro -v/etc/passwd:/etc/passwd:ro -v /etc/sudoers.d:/etc/sudoers.d:ro -v /tmp/.X11-unix:/tmp/.X11-unix:rw --rm -it advancedlanelines`
-6. 
+6. Go int othe repository: `cd AdvancedLaneLines`
+7. Run pipleine.py: `python3 pipeline.py` or the pipeleine for video: `python3 video.py`
 
 
 
@@ -64,7 +70,7 @@ I then used the output objpoints and imgpoints to compute the camera calibration
 
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
-|![Calibration Image](./camera_cal/calibration1.jpg)    |![Calibration Image Undistorted](./output_images/calibration1_undistorted_edit.jpg)  |
+|![Calibration Image](./camera_cal/calibration1.jpg)    |![Calibration Image Undistorted](./output/calibration1_undistorted_edit.jpg)  |
 
 
 ### Example of a distortion-corrected image.
@@ -73,7 +79,7 @@ We will be using test_images/straight_lines1.jpg as an example for the rest of t
 
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
-|![Test Imiage](./test_images/straight_lines1.jpg)      |![Undistorted](./output_images/straight_lines1_undist_edit.jpg)                      |
+|![Test Imiage](./test_images/straight_lines1.jpg)      |![Undistorted](./output/straight_lines1_undist_edit.jpg)                      |
 
 ### Color transform and gradients to highlight lane lines.
 
@@ -83,7 +89,7 @@ In the end the output looked something like this:
 
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
-|![Undistorted](./output_images/straight_lines1_undist_edit.jpg)|![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)|
+|![Undistorted](./output/straight_lines1_undist_edit.jpg)|![Color transform and gradient](./output/straight_lines1_color_transform_and_gradients_edit.jpg)|
 
 
 ### Perspective transform.
@@ -105,20 +111,20 @@ warped = Unwarp.unwarp(color_combined, src, dst)
 
 | Before                                                | After                                                                               |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------|
-|![Color transform and gradient](./output_images/straight_lines1_color_transform_and_gradients_edit.jpg)| ![Birds-eye view](./output_images/striaght_lines_bird_eye_view_edit.jpg) |
+|![Color transform and gradient](./output/straight_lines1_color_transform_and_gradients_edit.jpg)| ![Birds-eye view](./output/striaght_lines_bird_eye_view_edit.jpg) |
 
 
 
 
 ### Identified lane-line pixels and fit their positions with a polynomial.
 
-In order to identify the pixels of a given binary image a historgram that shows high peaks where the lane lines are detected serves as a guide. 
+In order to identify the pixels of a given binary image a historgram that shows high peaks where the lane lines are detected serves as a guide.
 
 For new undetected pixel images we start from the bottom of the image which would be closest to the car and form "windows" of specified size to continue seraching for lane lines along the image forward in the lane for each lane line.
 
 For videos where we have already identified pixels in the previous frame, a focused search to where the prvious lane pixels where identified helps speed things up. This is shown in FindPix.py in find_lane_pils() and search_around_poly(). The pixels are then used to fit a polynomial by the fit_poly() functions.
 
-![Lane pixels](./output_images/straight_lines1_lane_boxes_edit.jpg)
+![Lane pixels](./output/straight_lines1_lane_boxes_edit.jpg)
 
 ### Calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
@@ -130,7 +136,7 @@ Assuming that the camera is placed in the center of the car and thus the center 
 
 ### Example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-![Final Output](./output_images/straight_lines1_final_edit.jpg)
+![Final Output](./output/straight_lines1_final_edit.jpg)
 
 
 ---
@@ -140,4 +146,3 @@ Assuming that the camera is placed in the center of the car and thus the center 
 #### Issues/Improvements
 
 The hardest part for me was finding a good combination of RGB, HLS color spaces and gradients to make it robust. The pipeline relies on highlighting the correct pixels (lane lines) while leaving anything extra out. By using more examples of shadows, colors, etc. it could be made more robust to be able to detect different types of lane lines under many different conditions.
-

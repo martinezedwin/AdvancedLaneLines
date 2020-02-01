@@ -3,11 +3,11 @@
 Get camera calibration. Correct distortion of images on the camera_cal/calibration images
 This will get the correction factors for the camera lense and safe them to calibration.p by using Calibration.py
 """
-import Calibration
-import numpy as np 
+from Calibration import Calibration
+import numpy as np
 import cv2
-import matplotlib.pyplot as plt 
-import matplotlib.image as mpimg 
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 #Runs all the chessboard images through Calibration.py
 a = range(1,21)
