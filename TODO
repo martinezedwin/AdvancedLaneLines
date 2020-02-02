@@ -1,10 +1,11 @@
 -(DONE) Install all packages needed by creating a requirements excecutable
 -(DONE) Clean out the folders, anything unrelated to executing the code should be taken out
--Reorganize the folders so it's clean and not just a long list of things
+-(DONE) Reorganize the folders so it's clean and not just a long list of things
 -(DONE) Ensure you can run box.py after installing
--Remove the bird eye view leftover when running box.py
+-(NOT NEEDED) Remove the bird eye view leftover when running box.py
 -(DONE) Ensure you can run video.py after
 -(NOT NEEDED) Resize images somehow
 -(DONE) Edit the explanations in the README
+- Make it work for the other two challenging videos
 -Edit the RADME as you go but also give a final look
 -Add LICENSE

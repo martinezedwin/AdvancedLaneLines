@@ -15,6 +15,9 @@ Algorithm overview:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+TODO: 
+-Make video.py work reliably for `input_videos/challenge_video.mp4` and `input_videos/harder_challenge_video.mp4`
+
 Dependencies
 ---
 This project was run with the following:
@@ -138,11 +141,3 @@ Assuming that the camera is placed in the center of the car and thus the center 
 
 ![Final Output](./output/straight_lines1_final_edit.jpg)
 
-
----
-
-### Discussion
-
-#### Issues/Improvements
-
-The hardest part for me was finding a good combination of RGB, HLS color spaces and gradients to make it robust. The pipeline relies on highlighting the correct pixels (lane lines) while leaving anything extra out. By using more examples of shadows, colors, etc. it could be made more robust to be able to detect different types of lane lines under many different conditions.

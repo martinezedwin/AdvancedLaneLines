@@ -40,6 +40,7 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #Undistort image using Undistort.py
 undist = Undistort.undistort(img, mtx, dist)
 
+#print('Step 2')
 #plt.imshow(undist)
 #plt.show()
 
@@ -77,6 +78,7 @@ Bb = ColorSpaces.Bb_gradients(undist, thresh = (150, 255))
 color_combined = np.zeros_like(mag_binary)
 color_combined[(Bb == 1) | (L == 1)]= 1
 
+#print('Step 3')
 #plt.imshow(color_combined, cmap = 'gray')
 #plt.show()
 
@@ -119,6 +121,7 @@ dst = np.array([[w, h], [0, h], [0, 0], [w, 0]], dtype = np.float32)
 
 warped = Unwarp.unwarp(color_combined, src, dst)
 
+#print('Step 4')
 #plt.imshow(warped, cmap = 'gray')
 #plt.show()
 
@@ -152,6 +155,8 @@ pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
 pts = np.hstack((pts_left, pts_right))
 
 f = cv2.fillPoly(color_warp, np.int_([pts]), (0,100, 0))
+
+#print('Step 5')
 #plt.imshow(f, cmap = 'gray')
 #plt.show()
 
@@ -192,6 +197,7 @@ reverse_warp = Unwarp.unwarp(f, src_reverse, dst_reverse)
 #plt.show()
 
 final = cv2.addWeighted(img, 0.8, reverse_warp, 1, 0)
+#print('Step 7')
 #plt.imshow(final)
 #plt.show()
 
@@ -209,5 +215,6 @@ abs_center_dist = abs(offset)
 text = '{:04.3f}'.format(abs_center_dist) + ' (m) ' + direction + ' of center'
 cv2.putText(final, text, (40,120), font, 1.5, (255,255,255), 2, cv2.LINE_AA)
 
+#print('Final')
 plt.imshow(final)
 plt.show()
