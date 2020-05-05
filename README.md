@@ -15,8 +15,6 @@ Algorithm overview:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-TODO: 
--Make video.py work reliably for `input_videos/challenge_video.mp4` and `input_videos/harder_challenge_video.mp4`
 
 Dependencies
 ---
